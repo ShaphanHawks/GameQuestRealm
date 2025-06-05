@@ -285,7 +285,11 @@ export default function MiniGames() {
           <button
             onClick={handleSubmit}
             disabled={!userInput}
-            className="px-4 py-2 bg-green-600 hover:bg-green-500 text-black font-bold border-2 border-green-400 disabled:opacity-50 disabled:cursor-not-allowed"
+            className={`px-4 py-2 font-bold border-2 transition-all duration-200 ${
+              userInput 
+                ? 'bg-green-600 hover:bg-green-500 text-black border-green-400 cursor-pointer hover:shadow-lg hover:shadow-green-400/50' 
+                : 'bg-gray-600 text-gray-400 border-gray-500 cursor-not-allowed'
+            }`}
           >
             EXECUTE
           </button>
