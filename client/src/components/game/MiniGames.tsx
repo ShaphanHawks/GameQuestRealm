@@ -4,14 +4,14 @@ import { useAudio } from '@/lib/stores/useAudio';
 import { generateFakeData } from '@/lib/fakeDataGenerator';
 
 export default function MiniGames() {
-  const { 
-    currentMethod, 
-    currentTarget, 
-    executeHack, 
+  const {
+    currentMethod,
+    currentTarget,
+    executeHack,
     setCurrentScreen,
-    computerSpecs 
+    computerSpecs
   } = useHackingGame();
-  
+
   const { playSuccess, playHit } = useAudio();
   const [gameState, setGameState] = useState<'ready' | 'playing' | 'completed'>('ready');
   const [gameData, setGameData] = useState<any>(null);
@@ -30,45 +30,18 @@ export default function MiniGames() {
 
     let data;
     switch (currentMethod.id) {
-      case 'phishing':
-        data = {
-          type: 'cipher',
-          encoded: caesarCipher('ACCESS', 3),
-          original: 'ACCESS',
-          shift: 3,
-          hint: 'Caesar cipher with shift of 3'
-        };
-        break;
-      
-      case 'brute_force':
+      case 'pin_guess':
         data = {
           type: 'pin',
-          targetPin: Math.floor(1000 + Math.random() * 9000).toString(),
+          // Hardcoding the PIN to 5566 as requested by the user.
+          // Original: Math.floor(1000 + Math.random() * 9000).toString(),
+          targetPin: '5566', // Updated to 5566
           maxAttempts: 3,
           hints: []
         };
         break;
-      
-      case 'sql_injection':
-        const fakeData = generateFakeData();
-        const correct = Math.floor(Math.random() * 4);
-        data = {
-          type: 'account',
-          partial: fakeData.accountNumber.substring(0, 6) + 'XXXX',
-          options: [
-            fakeData.accountNumber,
-            generateFakeData().accountNumber,
-            generateFakeData().accountNumber,
-            generateFakeData().accountNumber
-          ],
-          correct: correct
-        };
-        // Ensure correct answer is in the right position
-        [data.options[0], data.options[correct]] = [data.options[correct], data.options[0]];
-        data.correct = 0;
-        break;
-      
-      case 'social_engineering':
+
+      case 'cipher_decode':
         const words = ['SECURE', 'ACCESS', 'BREACH', 'SYSTEM', 'CRYPTO'];
         const word = words[Math.floor(Math.random() * words.length)];
         const shift = Math.floor(2 + Math.random() * 5);
@@ -80,40 +53,44 @@ export default function MiniGames() {
           hint: `Caesar cipher with shift of ${shift}`
         };
         break;
-      
-      case 'zero_day':
-        const sequenceLength = 6;
-        const sequence = [];
-        for (let i = 0; i < sequenceLength; i++) {
-          sequence.push(Math.floor(Math.random() * 4));
-        }
+
+      case 'account_match':
+        const fakeData = generateFakeData();
+        const correctIndex = Math.floor(Math.random() * 4); // Keep this as the *correct* index
+        const optionsArray = [
+            generateFakeData().accountNumber,
+            generateFakeData().accountNumber,
+            generateFakeData().accountNumber,
+            generateFakeData().accountNumber
+        ];
+        optionsArray[correctIndex] = fakeData.accountNumber; // Place the correct answer at the chosen index
+
+        data = {
+          type: 'account',
+          partial: fakeData.accountNumber.substring(0, 6) + 'XXXX',
+          options: optionsArray,
+          correct: correctIndex // Now `correct` directly refers to the index of the correct answer
+        };
+        break;
+
+      case 'firewall_bypass':
         data = {
           type: 'firewall',
-          sequence: sequence,
+          sequence: [],
           userSequence: [],
-          length: sequenceLength,
+          length: 6,
           timeLimit: 5000
         };
+        // Generate random sequence
+        for (let i = 0; i < data.length; i++) {
+          data.sequence.push(Math.floor(Math.random() * 4));
+        }
         break;
-      
-      case 'ransomware':
-        data = {
-          type: 'pin',
-          targetPin: Math.floor(1000 + Math.random() * 9000).toString(),
-          maxAttempts: 4,
-          hints: []
-        };
-        break;
-      
+
       default:
-        data = {
-          type: 'pin',
-          targetPin: Math.floor(1000 + Math.random() * 9000).toString(),
-          maxAttempts: 3,
-          hints: []
-        };
+        data = { type: 'simple', success: Math.random() > 0.5 };
     }
-    
+
     setGameData(data);
     setGameState('playing');
     setAttempts(0);
@@ -132,17 +109,13 @@ export default function MiniGames() {
   };
 
   const handleSubmit = () => {
-    console.log('EXECUTE button clicked!', { gameData, userInput, currentMethod, currentTarget });
-    if (!gameData) {
-      console.log('No game data available');
-      return;
-    }
+    if (!gameData) return;
 
     const newAttempts = attempts + 1;
     setAttempts(newAttempts);
 
     let success = false;
-    
+
     switch (gameData.type) {
       case 'pin':
         success = userInput === gameData.targetPin;
@@ -161,15 +134,15 @@ export default function MiniGames() {
           setGameData({...gameData, hints});
         }
         break;
-      
+
       case 'cipher':
         success = userInput.toUpperCase() === gameData.original;
         break;
-      
+
       case 'account':
         success = parseInt(userInput) === gameData.correct;
         break;
-      
+
       default:
         success = gameData.success;
     }
@@ -177,13 +150,13 @@ export default function MiniGames() {
     if (success || newAttempts >= (gameData.maxAttempts || 3)) {
       setResult(success ? 'success' : 'failure');
       setGameState('completed');
-      
+
       if (success) {
         playSuccess();
       } else {
         playHit();
       }
-      
+
       // Execute the hack after a short delay
       setTimeout(() => {
         executeHack(success);
@@ -285,11 +258,7 @@ export default function MiniGames() {
           <button
             onClick={handleSubmit}
             disabled={!userInput}
-            className={`px-4 py-2 font-bold border-2 transition-all duration-200 ${
-              userInput 
-                ? 'bg-green-600 hover:bg-green-500 text-black border-green-400 cursor-pointer hover:shadow-lg hover:shadow-green-400/50' 
-                : 'bg-gray-600 text-gray-400 border-gray-500 cursor-not-allowed'
-            }`}
+            className="px-4 py-2 bg-green-600 hover:bg-green-500 text-black font-bold border-2 border-green-400 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             EXECUTE
           </button>
@@ -302,8 +271,8 @@ export default function MiniGames() {
             {result === 'success' ? 'HACK SUCCESSFUL!' : 'HACK FAILED!'}
           </div>
           <div className="text-green-300 mt-2">
-            {result === 'success' 
-              ? `Gained $${currentTarget.payout.toLocaleString()}` 
+            {result === 'success'
+              ? `Gained $${currentTarget.payout.toLocaleString()}`
               : 'Trace level increased'}
           </div>
           <div className="text-yellow-400 text-sm mt-2">
@@ -314,3 +283,4 @@ export default function MiniGames() {
     </div>
   );
 }
+  
