@@ -82,17 +82,18 @@ export default function MiniGames() {
         break;
       
       case 'zero_day':
+        const sequenceLength = 6;
+        const sequence = [];
+        for (let i = 0; i < sequenceLength; i++) {
+          sequence.push(Math.floor(Math.random() * 4));
+        }
         data = {
           type: 'firewall',
-          sequence: [],
+          sequence: sequence,
           userSequence: [],
-          length: 6,
+          length: sequenceLength,
           timeLimit: 5000
         };
-        // Generate random sequence
-        for (let i = 0; i < data.length; i++) {
-          data.sequence.push(Math.floor(Math.random() * 4));
-        }
         break;
       
       case 'ransomware':
@@ -131,7 +132,11 @@ export default function MiniGames() {
   };
 
   const handleSubmit = () => {
-    if (!gameData) return;
+    console.log('EXECUTE button clicked!', { gameData, userInput, currentMethod, currentTarget });
+    if (!gameData) {
+      console.log('No game data available');
+      return;
+    }
 
     const newAttempts = attempts + 1;
     setAttempts(newAttempts);
