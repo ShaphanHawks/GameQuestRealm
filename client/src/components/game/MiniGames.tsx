@@ -30,7 +30,17 @@ export default function MiniGames() {
 
     let data;
     switch (currentMethod.id) {
-      case 'pin_guess':
+      case 'phishing':
+        data = {
+          type: 'cipher',
+          encoded: caesarCipher('ACCESS', 3),
+          original: 'ACCESS',
+          shift: 3,
+          hint: 'Caesar cipher with shift of 3'
+        };
+        break;
+      
+      case 'brute_force':
         data = {
           type: 'pin',
           targetPin: Math.floor(1000 + Math.random() * 9000).toString(),
@@ -39,20 +49,7 @@ export default function MiniGames() {
         };
         break;
       
-      case 'cipher_decode':
-        const words = ['SECURE', 'ACCESS', 'BREACH', 'SYSTEM', 'CRYPTO'];
-        const word = words[Math.floor(Math.random() * words.length)];
-        const shift = Math.floor(2 + Math.random() * 5);
-        data = {
-          type: 'cipher',
-          encoded: caesarCipher(word, shift),
-          original: word,
-          shift: shift,
-          hint: `Caesar cipher with shift of ${shift}`
-        };
-        break;
-      
-      case 'account_match':
+      case 'sql_injection':
         const fakeData = generateFakeData();
         const correct = Math.floor(Math.random() * 4);
         data = {
@@ -71,7 +68,20 @@ export default function MiniGames() {
         data.correct = 0;
         break;
       
-      case 'firewall_bypass':
+      case 'social_engineering':
+        const words = ['SECURE', 'ACCESS', 'BREACH', 'SYSTEM', 'CRYPTO'];
+        const word = words[Math.floor(Math.random() * words.length)];
+        const shift = Math.floor(2 + Math.random() * 5);
+        data = {
+          type: 'cipher',
+          encoded: caesarCipher(word, shift),
+          original: word,
+          shift: shift,
+          hint: `Caesar cipher with shift of ${shift}`
+        };
+        break;
+      
+      case 'zero_day':
         data = {
           type: 'firewall',
           sequence: [],
@@ -85,8 +95,22 @@ export default function MiniGames() {
         }
         break;
       
+      case 'ransomware':
+        data = {
+          type: 'pin',
+          targetPin: Math.floor(1000 + Math.random() * 9000).toString(),
+          maxAttempts: 4,
+          hints: []
+        };
+        break;
+      
       default:
-        data = { type: 'simple', success: Math.random() > 0.5 };
+        data = {
+          type: 'pin',
+          targetPin: Math.floor(1000 + Math.random() * 9000).toString(),
+          maxAttempts: 3,
+          hints: []
+        };
     }
     
     setGameData(data);
