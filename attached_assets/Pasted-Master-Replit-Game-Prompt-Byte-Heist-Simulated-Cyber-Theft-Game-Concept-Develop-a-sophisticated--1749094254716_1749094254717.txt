@@ -1,0 +1,74 @@
+Master Replit Game Prompt: Byte Heist - Simulated Cyber Theft
+Game Concept:
+Develop a sophisticated, text-based (with optional simple graphical elements) hacking simulation game. The player assumes the role of a skilled "hacker" operating in a simulated environment, with the ultimate goal of accumulating a target amount of fake digital currency by exploiting simulated banking and credit card vulnerabilities. The game emphasizes strategic decision-making, pattern recognition, data interpretation, and risk management within a dynamic "cyber" ecosystem.
+
+Core UI & Initial Experience:
+Upon launching the game, the player is greeted by a thematic loading screen. This can be simple text (e.g., "Initializing Network Protocols...", "Compiling Exploits...", "Establishing Connection to the Matrix...") that provides a sense of immersion. After a brief simulated "load," the screen transitions to prominently display a clear "Start Hacking" button. Clicking this button initiates the core gameplay, transitioning the player into their "command center" or main terminal.
+
+Player Objective:
+Accumulate a total of $1,000,000 in fake digital currency by successfully executing hacking operations.
+
+Key Game Mechanics & Features:
+"Hacking Rig" & Computer Details System:
+
+The player starts with a basic "rig." The game should present the player with their current "computer details" (e.g., "CPU: Basic Processor (5 Ghz)", "RAM: 8 GB", "Network Speed: 100 Mbps", "OS: Linux Kernel 3.x"). These details will initially be low-tier.
+These details are dynamic and can be improved.
+Impact: Better computer details (e.g., faster CPU, more RAM, higher network speed) should translate to tangible in-game benefits, such as:
+Reduced "Trace Level" increase per failed attempt.
+Increased success rate of certain hacking methods.
+Faster execution of "mini-games" or data processing.
+Unlocking access to more complex or higher-value targets.
+Target Selection & Information Gathering:
+
+The player navigates a menu to select from available "targets" (e.g., "Global Trust Bank," "Acme Financial Services," "Wealthy Individual's Account," "Small Business Server").
+Each target will display:
+Potential Payout: The fake money available if successful.
+Difficulty Rating: (e.g., "Low," "Medium," "High," "Extreme").
+Security Level: A numerical or descriptive indicator of target defenses.
+Known Vulnerabilities (Optional): Hints about effective hacking methods.
+Vulnerability Exploitation & Hacking Methods:
+
+Once a target is chosen, the player selects a hacking method from their available "tools" (e.g., "Phishing Attack," "SQL Injection," "Brute Force Password Cracker," "Social Engineering," "Zero-Day Exploit").
+Each method has:
+Success Rate: Influenced by player "computer details," target security, and player skill (via mini-games).
+Fake Data Requirements: Specific fake banking/credit card details or other simulated credentials that need to be input or "cracked."
+Trace Level Impact: How much the "Trace Level" increases on failure or even success.
+Fake Data Interaction:
+The game generates and presents fake banking details (usernames, account numbers, routing numbers) and fake credit card details (card numbers, expiry dates, CVVs). These are purely simulated strings; no real-world validation is needed.
+Players might need to correctly "match" details, "decode" partial information, or "guess" parameters based on context provided by the game.
+Mini-Games & Puzzles:
+
+Successful execution of certain hacking methods will trigger short, text-based mini-games or puzzles that simulate cracking, decoding, or data extraction. Examples:
+"PIN Guessing": Player guesses a 4-digit PIN in limited attempts.
+"Simple Cipher Decoder": A short string needs to be decoded using a given key or pattern.
+"Account Number Match": Given partial info, player selects the correct full fake account number from a list.
+"Firewall Bypass": A quick reaction-time text-based game.
+Risk Management: The "Trace Level"
+
+A prominent "Trace Level" meter (e.g., 0-100%) is displayed.
+Failed hacking attempts, choosing high-risk methods, or incorrect data input will increase the Trace Level.
+Successfully completing operations without being detected might slightly reduce it, or "clean" traces.
+If the Trace Level reaches 100%, it's "Game Over" (Player is "caught" or "system locked out").
+"Dark Web" Market / Upgrade System:
+
+Allow players to spend their fake money to upgrade their "Hacking Rig" (improving "Computer Details" like CPU, RAM, Network Card) or purchase new "Tools" / "Exploits" (unlocking new hacking methods or improving success chances/reducing trace of existing ones).
+Computer Detail Upgrade Impact: Clearly state how upgrades benefit the player (e.g., "CPU Upgrade: +10% brute force speed, -5% trace on failed attempts").
+Winning and Losing Conditions:
+Win Condition: Successfully accumulate the target amount of fake money ($1,000,000). A celebratory "Mission Accomplished" or "Funds Transferred" message appears.
+Lose Condition: The "Trace Level" reaches 100%. A "Game Over: Trace Detected" or "System Locked Out" message appears.
+User Interface (Text-based with thematic elements):
+All interactions are via text input (typing numbers for choices, or specific commands).
+Clear, well-structured menus for:
+Main Hacking Terminal (displaying current money, Trace Level, computer details).
+Target Selection.
+Method Selection.
+"Dark Web" Market / Upgrade Screen.
+Thematic "system messages" and "console output" to describe actions, successes, failures, and game events.
+Use of simple ASCII art for visual flair where appropriate (e.g., a progress bar for "cracking," a stylized "network map," a "computer screen" outline).
+Stretch Goals (Optional but highly recommended for depth):
+Time Limit / Turn-Based System: Introduce a global timer or a limited number of "turns" (e.g., "days") to add pressure.
+Random Events: Periodic "security updates," "rival hacker activity," "government crackdowns," or "system glitches" that dynamically affect target vulnerabilities, trace levels, or market prices.
+"Clean Trace" Option: A high-cost action players can take to significantly reduce their Trace Level.
+Prestige System: After winning, allow the player to "reset" with some bonus starting resources or a slightly upgraded rig for a new game.
+Basic Sound Effects: Simple beeps, boops, and success/failure sounds (if Replit's environment allows easily).
+Leaderboard: Track high scores (total money accumulated or fastest win) for local bragging rights.
