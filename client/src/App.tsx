@@ -7,16 +7,16 @@ import { useAudio } from './lib/stores/useAudio';
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const { gamePhase } = useHackingGame();
-  const { backgroundMusic, setBackgroundMusic } = useAudio();
+  // --- UPDATED LOGIC ---
+  // Get isMuted state to control music playback
+  const { isMuted, backgroundMusic, setBackgroundMusic } = useAudio();
 
   useEffect(() => {
-    // Setup background music
     const audio = new Audio('/sounds/background.mp3');
     audio.loop = true;
     audio.volume = 0.3;
     setBackgroundMusic(audio);
 
-    // Simulate loading time
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 3000);
@@ -24,12 +24,18 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [setBackgroundMusic]);
 
-  // Start background music when game starts
+  // --- UPDATED LOGIC ---
+  // This effect now correctly handles playing and pausing the music
+  // based on the game phase and the mute state.
   useEffect(() => {
-    if (!isLoading && backgroundMusic && gamePhase === 'playing') {
-      backgroundMusic.play().catch(console.log);
+    if (!isLoading && backgroundMusic) {
+      if (gamePhase === 'playing' && !isMuted) {
+        backgroundMusic.play().catch(console.log);
+      } else {
+        backgroundMusic.pause();
+      }
     }
-  }, [isLoading, backgroundMusic, gamePhase]);
+  }, [isLoading, backgroundMusic, gamePhase, isMuted]);
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -40,4 +46,4 @@ export default function App() {
       <Terminal />
     </div>
   );
-}
+}  
